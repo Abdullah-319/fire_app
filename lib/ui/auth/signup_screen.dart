@@ -1,24 +1,22 @@
-import 'package:fire_app/ui/auth/signup_screen.dart';
-import 'package:fire_app/ui/posts/post_screen.dart';
 import 'package:fire_app/utils/utils.dart';
 import 'package:fire_app/widgets/round_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   bool loading = false;
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  final auth = FirebaseAuth.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void dispose() {
@@ -27,42 +25,42 @@ class _LoginScreenState extends State<LoginScreen> {
     passwordController.dispose();
   }
 
-  void login(String email, String password) {
-    setState(() {
-      loading = true;
-    });
-    auth
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((value) {
+  void signupUser() {
+    if (formKey.currentState!.validate()) {
       setState(() {
-        loading = false;
-        passwordController.clear();
+        loading = true;
       });
-      Utils().showMessage(
-          context,
-          "${value.user!.email} logged in successfully",
-          Theme.of(context).colorScheme.secondary);
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const PostScreen(),
-          ));
-    }).onError((error, stackTrace) {
-      setState(() {
-        loading = false;
-        emailController.clear();
-        passwordController.clear();
+      auth
+          .createUserWithEmailAndPassword(
+        email: emailController.text.toString(),
+        password: passwordController.text.toString(),
+      )
+          .then((value) {
+        setState(() {
+          loading = false;
+          emailController.clear();
+          passwordController.clear();
+        });
+        Utils().showMessage(
+            context,
+            "${value.user!.email} created successfully",
+            Theme.of(context).colorScheme.secondary);
+        Navigator.of(context).pop();
+      }).onError((error, stackTrace) {
+        Utils().showMessage(context, error.toString(),
+            Theme.of(context).colorScheme.error.withOpacity(0.75));
+        setState(() {
+          loading = false;
+        });
       });
-      Utils().showMessage(context, error.toString(),
-          Theme.of(context).colorScheme.error.withOpacity(0.75));
-    });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Login"),
+        title: const Text("Sign Up"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -72,8 +70,8 @@ class _LoginScreenState extends State<LoginScreen> {
             width: double.infinity,
             height: MediaQuery.of(context).size.height * 0.88,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Form(
                   key: formKey,
@@ -119,27 +117,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 RoundButton(
                   loading: loading,
-                  title: "Login",
+                  title: "Sign Up",
                   onTap: () {
-                    login(
-                      emailController.text.toString(),
-                      passwordController.text.toString(),
-                    );
+                    signupUser();
                   },
                 ),
                 const SizedBox(height: 30),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Don't have an account?"),
+                    const Text("Already have an account?"),
                     TextButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SignupScreen()));
+                        Navigator.of(context).pop();
                       },
-                      child: const Text("Sign up"),
+                      child: const Text("Login"),
                     ),
                   ],
                 ),

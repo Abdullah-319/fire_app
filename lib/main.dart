@@ -23,7 +23,11 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Fire',
       theme: ThemeData(
         fontFamily: GoogleFonts.poppins().fontFamily,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.redAccent),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.redAccent,
+          error: Colors.redAccent.withOpacity(0.75),
+          secondary: Colors.green,
+        ),
         useMaterial3: true,
       ),
       home: const SplashScreen(),

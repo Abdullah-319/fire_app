@@ -4,10 +4,13 @@ import 'package:google_fonts/google_fonts.dart';
 class RoundButton extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
+  final bool loading;
+
   const RoundButton({
     super.key,
     required this.title,
     required this.onTap,
+    this.loading = false,
   });
 
   @override
@@ -22,12 +25,20 @@ class RoundButton extends StatelessWidget {
           color: Theme.of(context).primaryColor.withOpacity(0.75),
           borderRadius: BorderRadius.circular(15),
         ),
-        child: Text(
-          title,
-          style: GoogleFonts.poppins(
-            color: Colors.white,
-          ),
-        ),
+        child: loading
+            ? const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 2,
+                ),
+              )
+            : Text(
+                title,
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                ),
+              ),
       ),
     );
   }
