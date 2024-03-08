@@ -2,6 +2,7 @@ import 'package:fire_app/ui/auth/login_screen.dart';
 import 'package:fire_app/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class PostScreen extends StatefulWidget {
   const PostScreen({super.key});
@@ -30,7 +31,8 @@ class _PostScreenState extends State<PostScreen> {
         leading: null,
         actions: [
           IconButton(
-              onPressed: () {
+              onPressed: () async {
+                await GoogleSignIn().signOut();
                 auth.signOut().then((value) {
                   Utils().showMessage(context, "Sorry to see you go.",
                       Theme.of(context).colorScheme.secondary);

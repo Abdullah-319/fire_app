@@ -1,4 +1,3 @@
-import 'package:fire_app/ui/auth/login_with_phone.dart';
 import 'package:fire_app/utils/utils.dart';
 import 'package:fire_app/widgets/round_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -135,30 +134,6 @@ class _SignupScreenState extends State<SignupScreen> {
                       child: const Text("Login"),
                     ),
                   ],
-                ),
-                const SizedBox(height: 25),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginWithPhone()));
-                  },
-                  borderRadius: BorderRadius.circular(15),
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.call),
-                        Text("  Login with phone"),
-                      ],
-                    ),
-                  ),
                 ),
               ],
             ),

@@ -1,3 +1,5 @@
+import 'package:fire_app/firebase_services/google_signin_service.dart';
+import 'package:fire_app/ui/auth/login_with_phone.dart';
 import 'package:fire_app/ui/auth/signup_screen.dart';
 import 'package:fire_app/ui/posts/post_screen.dart';
 import 'package:fire_app/utils/utils.dart';
@@ -140,6 +142,63 @@ class _LoginScreenState extends State<LoginScreen> {
                                 builder: (context) => const SignupScreen()));
                       },
                       child: const Text("Sign up"),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        GoogleSignInSerice().signInWithGoogle(context);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.circular(156465),
+                        ),
+                        child: Image.network(
+                          "https://flutter-ui.s3.us-east-2.amazonaws.com/social_media_buttons/google-icon.png",
+                          height: 30,
+                          width: 30,
+                          filterQuality: FilterQuality.high,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    const SizedBox(
+                      height: 30,
+                      child: VerticalDivider(
+                        color: Colors.black54,
+                        thickness: 2,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginWithPhone()));
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.circular(156465),
+                        ),
+                        child: const Icon(
+                          Icons.call,
+                          size: 30,
+                          color: Colors.blueAccent,
+                        ),
+                      ),
                     ),
                   ],
                 ),

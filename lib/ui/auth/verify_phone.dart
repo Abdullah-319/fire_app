@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:fire_app/ui/posts/post_screen.dart';
 import 'package:fire_app/utils/utils.dart';
 import 'package:fire_app/widgets/round_button.dart';
