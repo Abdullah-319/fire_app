@@ -13,12 +13,21 @@ class PostScreen extends StatefulWidget {
 final auth = FirebaseAuth.instance;
 
 class _PostScreenState extends State<PostScreen> {
+  Widget userAccess = Text(auth.currentUser!.email.toString());
+
   @override
   Widget build(BuildContext context) {
+    if (auth.currentUser!.email == null) {
+      setState(() {
+        userAccess = Text(auth.currentUser!.phoneNumber.toString());
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text("Posts"),
+        leading: null,
         actions: [
           IconButton(
               onPressed: () {
@@ -38,7 +47,7 @@ class _PostScreenState extends State<PostScreen> {
         ],
       ),
       body: Center(
-        child: Text(auth.currentUser!.email.toString()),
+        child: userAccess,
       ),
     );
   }
