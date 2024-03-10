@@ -49,6 +49,9 @@ class _LoginWithPhoneState extends State<LoginWithPhone> {
               title: "Login",
               onTap: () {
                 if (phoneNumberController.text.trim().isNotEmpty) {
+                  setState(() {
+                    loading = true;
+                  });
                   auth.verifyPhoneNumber(
                     phoneNumber: phoneNumberController.text,
                     verificationCompleted: (_) {
