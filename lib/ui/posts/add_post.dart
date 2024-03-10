@@ -3,6 +3,7 @@ import 'package:fire_app/widgets/round_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AddPost extends StatefulWidget {
   const AddPost({super.key});
@@ -23,25 +24,22 @@ class _AddPostState extends State<AddPost> {
     setState(() {
       loading = true;
     });
-    String? user;
-    if (auth.currentUser!.email != null) {
-      user = auth.currentUser!.email!.split('@')[0];
-    } else {
-      user = auth.currentUser!.phoneNumber;
-    }
 
     if (formKey.currentState!.validate()) {
       try {
+        DateTime now = DateTime.now();
+        String formattedDate =
+            DateFormat('yyyy-MM-dd – kk:mm:ss:ms').format(now);
         database
             .ref('Posts')
-            .child(user!)
-            .child(DateTime.now().millisecondsSinceEpoch.toString())
+            .child(auth.currentUser!.uid)
+            .child(formattedDate)
             .set({
+          'id': auth.currentUser?.email ?? auth.currentUser!.phoneNumber,
           'desc': desc,
         }).then((value) {
           Utils().showMessage(context, "What a nice thought. 😉",
               Theme.of(context).colorScheme.secondary);
-
           setState(() {
             loading = false;
             postController.clear();
