@@ -24,9 +24,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: GoogleFonts.poppins().fontFamily,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.redAccent,
-          error: Colors.redAccent.withOpacity(0.75),
-          secondary: Colors.green,
+          primary: const Color(0xff457b9d),
+          seedColor: const Color(0xff1d3557),
+          error: const Color(0xffe63946),
+          secondary: const Color(0xff588157),
         ),
         useMaterial3: true,
       ),

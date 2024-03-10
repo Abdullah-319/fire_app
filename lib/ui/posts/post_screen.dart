@@ -42,7 +42,7 @@ class _PostScreenState extends State<PostScreen> {
                           builder: (context) => const LoginScreen()));
                 }).onError((error, stackTrace) {
                   Utils().showMessage(context, "Unable to logout.",
-                      Theme.of(context).colorScheme.error.withOpacity(0.75));
+                      Theme.of(context).colorScheme.error);
                 });
               },
               icon: const Icon(Icons.logout_rounded)),
@@ -50,6 +50,11 @@ class _PostScreenState extends State<PostScreen> {
       ),
       body: Center(
         child: userAccess,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        child: const Icon(Icons.add),
       ),
     );
   }

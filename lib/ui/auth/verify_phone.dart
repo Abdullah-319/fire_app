@@ -65,7 +65,7 @@ class _VerifyPhoneState extends State<VerifyPhone> {
                     loading = false;
                   });
                   Utils().showMessage(context, e.toString(),
-                      Theme.of(context).colorScheme.error.withOpacity(0.75));
+                      Theme.of(context).colorScheme.error);
                 }
               },
             ),

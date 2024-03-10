@@ -30,8 +30,8 @@ class GoogleSignInSerice {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const PostScreen()));
     } catch (e) {
-      Utils().showMessage(context, e.toString(),
-          Theme.of(context).colorScheme.error.withOpacity(0.75));
+      Utils().showMessage(
+          context, e.toString(), Theme.of(context).colorScheme.error);
     }
   }
 }

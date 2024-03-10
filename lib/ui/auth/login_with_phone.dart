@@ -54,13 +54,8 @@ class _LoginWithPhoneState extends State<LoginWithPhone> {
                           Theme.of(context).colorScheme.secondary);
                     },
                     verificationFailed: (e) {
-                      Utils().showMessage(
-                          context,
-                          e.toString(),
-                          Theme.of(context)
-                              .colorScheme
-                              .error
-                              .withOpacity(0.75));
+                      Utils().showMessage(context, e.toString(),
+                          Theme.of(context).colorScheme.error);
                       setState(() {
                         loading = false;
                       });
@@ -77,13 +72,8 @@ class _LoginWithPhoneState extends State<LoginWithPhone> {
                                   )));
                     },
                     codeAutoRetrievalTimeout: (e) {
-                      Utils().showMessage(
-                          context,
-                          e.toString(),
-                          Theme.of(context)
-                              .colorScheme
-                              .error
-                              .withOpacity(0.75));
+                      Utils().showMessage(context, e.toString(),
+                          Theme.of(context).colorScheme.error);
                       setState(() {
                         loading = false;
                       });
@@ -94,7 +84,7 @@ class _LoginWithPhoneState extends State<LoginWithPhone> {
                     loading = false;
                   });
                   Utils().showMessage(context, "Enter your phone number.",
-                      Theme.of(context).colorScheme.error.withOpacity(0.75));
+                      Theme.of(context).colorScheme.error);
                 }
               },
             ),

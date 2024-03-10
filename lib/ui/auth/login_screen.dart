@@ -30,34 +30,36 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login(String email, String password) {
-    setState(() {
-      loading = true;
-    });
-    auth
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((value) {
+    if (formKey.currentState!.validate()) {
       setState(() {
-        loading = false;
-        passwordController.clear();
+        loading = true;
       });
-      Utils().showMessage(
-          context,
-          "${value.user!.email} logged in successfully",
-          Theme.of(context).colorScheme.secondary);
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const PostScreen(),
-          ));
-    }).onError((error, stackTrace) {
-      setState(() {
-        loading = false;
-        emailController.clear();
-        passwordController.clear();
+      auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) {
+        setState(() {
+          loading = false;
+          passwordController.clear();
+        });
+        Utils().showMessage(
+            context,
+            "${value.user!.email} logged in successfully",
+            Theme.of(context).colorScheme.secondary);
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const PostScreen(),
+            ));
+      }).onError((error, stackTrace) {
+        setState(() {
+          loading = false;
+          emailController.clear();
+          passwordController.clear();
+        });
+        Utils().showMessage(
+            context, error.toString(), Theme.of(context).colorScheme.error);
       });
-      Utils().showMessage(context, error.toString(),
-          Theme.of(context).colorScheme.error.withOpacity(0.75));
-    });
+    }
   }
 
   @override
@@ -123,10 +125,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   loading: loading,
                   title: "Login",
                   onTap: () {
-                    login(
-                      emailController.text.toString(),
-                      passwordController.text.toString(),
-                    );
+                    try {
+                      login(
+                        emailController.text.toString(),
+                        passwordController.text.toString(),
+                      );
+                    } catch (e) {
+                      Utils().showMessage(context, e.toString(),
+                          Theme.of(context).colorScheme.error);
+                    }
                   },
                 ),
                 const SizedBox(height: 30),

@@ -47,8 +47,8 @@ class _SignupScreenState extends State<SignupScreen> {
             Theme.of(context).colorScheme.secondary);
         Navigator.of(context).pop();
       }).onError((error, stackTrace) {
-        Utils().showMessage(context, error.toString(),
-            Theme.of(context).colorScheme.error.withOpacity(0.75));
+        Utils().showMessage(
+            context, error.toString(), Theme.of(context).colorScheme.error);
         setState(() {
           loading = false;
         });
