@@ -13,6 +13,7 @@ class LoginWithPhone extends StatefulWidget {
 
 class _LoginWithPhoneState extends State<LoginWithPhone> {
   bool loading = false;
+  final phoneKey = GlobalKey<FormState>();
   final phoneNumberController = TextEditingController();
   final auth = FirebaseAuth.instance;
 
@@ -29,7 +30,14 @@ class _LoginWithPhoneState extends State<LoginWithPhone> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
+              key: phoneKey,
               controller: phoneNumberController,
+              validator: (value) {
+                if (value!.trim().isEmpty) {
+                  return "Enter phone number";
+                }
+                return null;
+              },
               keyboardType: TextInputType.text,
               decoration: const InputDecoration(
                 hintText: "+92 000 0000000",
@@ -40,9 +48,6 @@ class _LoginWithPhoneState extends State<LoginWithPhone> {
               loading: loading,
               title: "Login",
               onTap: () {
-                setState(() {
-                  loading = true;
-                });
                 if (phoneNumberController.text.trim().isNotEmpty) {
                   auth.verifyPhoneNumber(
                     phoneNumber: phoneNumberController.text,

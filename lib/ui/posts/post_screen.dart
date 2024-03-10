@@ -1,4 +1,5 @@
 import 'package:fire_app/ui/auth/login_screen.dart';
+import 'package:fire_app/ui/posts/add_post.dart';
 import 'package:fire_app/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -52,9 +53,15 @@ class _PostScreenState extends State<PostScreen> {
         child: userAccess,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const AddPost()));
+        },
         backgroundColor: Theme.of(context).colorScheme.primary,
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white60,
+        ),
       ),
     );
   }
