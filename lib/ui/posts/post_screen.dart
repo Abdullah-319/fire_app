@@ -2,6 +2,8 @@ import 'package:fire_app/ui/auth/login_screen.dart';
 import 'package:fire_app/ui/posts/add_post.dart';
 import 'package:fire_app/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -13,9 +15,12 @@ class PostScreen extends StatefulWidget {
 }
 
 final auth = FirebaseAuth.instance;
+final database = FirebaseDatabase.instance;
 
 class _PostScreenState extends State<PostScreen> {
   Widget userAccess = Text(auth.currentUser!.email.toString());
+
+  final ref = database.ref('Posts');
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +54,15 @@ class _PostScreenState extends State<PostScreen> {
               icon: const Icon(Icons.logout_rounded)),
         ],
       ),
-      body: Center(
-        child: userAccess,
+      body: FirebaseAnimatedList(
+        defaultChild: const Center(child: CircularProgressIndicator()),
+        query: ref,
+        itemBuilder: (context, snapshot, animation, index) {
+          return ListTile(
+            title: Text(snapshot.child("id").value.toString()),
+            subtitle: Text(snapshot.child("desc").value.toString()),
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

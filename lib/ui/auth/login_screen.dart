@@ -168,8 +168,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           borderRadius: BorderRadius.circular(156465),
                         ),
-                        child: Image.network(
-                          "https://flutter-ui.s3.us-east-2.amazonaws.com/social_media_buttons/google-icon.png",
+                        child: Image.asset(
+                          "assets/images/google.png",
                           height: 30,
                           width: 30,
                           filterQuality: FilterQuality.high,
