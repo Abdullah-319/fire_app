@@ -3,6 +3,7 @@ import 'package:fire_app/ui/posts/add_post.dart';
 import 'package:fire_app/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 // import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -22,6 +23,7 @@ class _PostScreenState extends State<PostScreen> {
 
   final ref = database.ref('Posts');
   final searchController = TextEditingController();
+  final updateController = TextEditingController();
 
   List<dynamic> list = [];
 
@@ -106,6 +108,31 @@ class _PostScreenState extends State<PostScreen> {
                         return ListTile(
                           title: Text(list[index]['desc']),
                           subtitle: Text(list[index]['id']),
+                          trailing: PopupMenuButton(
+                            icon: const Icon(Icons.more_vert_rounded),
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                  value: 1,
+                                  onTap: () {
+                                    showEditDialog(
+                                        title, list[index]['id'].toString());
+                                  },
+                                  child: const ListTile(
+                                    leading: Icon(Icons.edit),
+                                    title: Text('Edit'),
+                                  )),
+                              PopupMenuItem(
+                                  value: 2,
+                                  onTap: () {
+                                    showDeleteDialog(
+                                        list[index]['id'].toString());
+                                  },
+                                  child: const ListTile(
+                                    leading: Icon(Icons.delete),
+                                    title: Text('Delete'),
+                                  )),
+                            ],
+                          ),
                         );
                       } else if (title
                           .toLowerCase()
@@ -149,6 +176,76 @@ class _PostScreenState extends State<PostScreen> {
           Icons.add,
           color: Colors.white60,
         ),
+      ),
+    );
+  }
+
+  Future<void> showEditDialog(String title, String id) async {
+    updateController.text = title;
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Update'),
+        content: TextField(
+          controller: updateController,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              ref.child(id).update({
+                'desc': updateController.text.toString(),
+              }).then((value) {
+                Utils().showMessage(context, "Updated successfully!",
+                    Theme.of(context).colorScheme.secondary);
+              }).onError((error, stackTrace) {
+                Utils().showMessage(context, error.toString(),
+                    Theme.of(context).colorScheme.onError);
+              });
+
+              Navigator.pop(context);
+            },
+            child: Text(
+              'Update',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.secondary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future showDeleteDialog(String id) async {
+    return showCupertinoModalPopup(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: const Text('Delete'),
+        content: const Text('You sure want to delete?'),
+        actions: [
+          CupertinoDialogAction(
+            isDefaultAction: true,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('No'),
+          ),
+          CupertinoDialogAction(
+            isDestructiveAction: true,
+            onPressed: () {
+              ref.child(id).remove();
+              Navigator.pop(context);
+            },
+            child: const Text('Yes'),
+          ),
+        ],
       ),
     );
   }

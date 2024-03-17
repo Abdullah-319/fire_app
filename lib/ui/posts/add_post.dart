@@ -30,11 +30,11 @@ class _AddPostState extends State<AddPost> {
         // DateTime now = DateTime.now();
         // String formattedDate =
         //     DateFormat('yyyy-MM-dd – kk:mm:ss:ms').format(now);
-        database
-            .ref('Posts')
-            .child(DateTime.now().microsecondsSinceEpoch.toString())
-            .set({
-          'id': auth.currentUser?.email ?? auth.currentUser!.phoneNumber,
+        final id = DateTime.now().microsecondsSinceEpoch.toString();
+
+        database.ref('Posts').child(id).set({
+          'id': id,
+          'user': auth.currentUser?.email ?? auth.currentUser!.phoneNumber,
           'desc': desc,
         }).then((value) {
           Utils().showMessage(context, "What a nice thought. 😉",
