@@ -21,6 +21,7 @@ class _PostScreenState extends State<PostScreen> {
   // Widget userAccess = Text(auth.currentUser!.email.toString());
 
   final ref = database.ref('Posts');
+  final searchController = TextEditingController();
 
   List<dynamic> list = [];
 
@@ -71,27 +72,62 @@ class _PostScreenState extends State<PostScreen> {
               icon: const Icon(Icons.logout_rounded)),
         ],
       ),
-      body: StreamBuilder(
-        stream: ref.onValue,
-        builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
-          getPostsFromDb(snapshot);
-
-          if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data!.snapshot.children.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(list[index]['desc']),
-                  subtitle: Text(list[index]['id']),
-                );
+      body: Column(
+        children: [
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: TextFormField(
+              controller: searchController,
+              decoration: const InputDecoration(
+                labelText: "Search",
+                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                border: OutlineInputBorder(),
+              ),
+              onChanged: (value) {
+                setState(() {});
               },
-            );
-          } else if (snapshot.hasError) {
-            return const Text("Unexpected error occrured.");
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
+            ),
+          ),
+          const SizedBox(height: 10),
+          Expanded(
+            child: StreamBuilder(
+              stream: ref.onValue,
+              builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
+                getPostsFromDb(snapshot);
+
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    itemCount: snapshot.data!.snapshot.children.length,
+                    itemBuilder: (context, index) {
+                      final title = list[index]['desc'].toString();
+
+                      if (searchController.text.isEmpty) {
+                        return ListTile(
+                          title: Text(list[index]['desc']),
+                          subtitle: Text(list[index]['id']),
+                        );
+                      } else if (title
+                          .toLowerCase()
+                          .contains(searchController.text.toLowerCase())) {
+                        return ListTile(
+                          title: Text(list[index]['desc']),
+                          subtitle: Text(list[index]['id']),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
+                  );
+                } else if (snapshot.hasError) {
+                  return const Text("Unexpected error occrured.");
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
+          ),
+        ],
       ),
       // body: FirebaseAnimatedList(
       //   defaultChild: const Center(child: CircularProgressIndicator()),
