@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fire_app/utils/utils.dart';
 import 'package:fire_app/widgets/round_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,7 +18,8 @@ class _SignupScreenState extends State<SignupScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  FirebaseAuth auth = FirebaseAuth.instance;
+  final auth = FirebaseAuth.instance;
+  final firestore = FirebaseFirestore.instance;
 
   @override
   void dispose() {
@@ -78,6 +80,23 @@ class _SignupScreenState extends State<SignupScreen> {
                   key: formKey,
                   child: Column(
                     children: [
+                      TextFormField(
+                        controller: usernameController,
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return 'Enter username';
+                          }
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.person_rounded,
+                          ),
+                          hintText: "Uername",
+                        ),
+                      ),
+                      const SizedBox(height: 10),
                       TextFormField(
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
