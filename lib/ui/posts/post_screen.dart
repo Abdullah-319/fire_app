@@ -28,7 +28,7 @@ class _PostScreenState extends State<PostScreen> {
   List<dynamic> list = [];
 
   void getPostsFromDb(AsyncSnapshot<DatabaseEvent> snapshot) async {
-    Map<dynamic, dynamic> map = await snapshot.data!.snapshot.value as dynamic;
+    Map<dynamic, dynamic> map = snapshot.data!.snapshot.value as dynamic;
     list.clear();
     setState(() {
       list = map.values.toList();
@@ -37,7 +37,9 @@ class _PostScreenState extends State<PostScreen> {
 
   @override
   void initState() {
-    ref.onValue.listen((event) {});
+    ref.onValue.listen((event) {
+      getPostsFromDb(event.snapshot as AsyncSnapshot<DatabaseEvent>);
+    });
 
     super.initState();
   }
