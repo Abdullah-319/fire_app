@@ -127,7 +127,9 @@ class _PostScreenState extends State<PostScreen> {
                                   value: 2,
                                   onTap: () {
                                     showDeleteDialog(
-                                        list[index]['id'].toString());
+                                      list[index]['id'].toString(),
+                                      list[index]['desc'].toString(),
+                                    );
                                   },
                                   child: const ListTile(
                                     leading: Icon(Icons.delete),
@@ -142,6 +144,33 @@ class _PostScreenState extends State<PostScreen> {
                         return ListTile(
                           title: Text(list[index]['desc']),
                           subtitle: Text(list[index]['id']),
+                          trailing: PopupMenuButton(
+                            icon: const Icon(Icons.more_vert_rounded),
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                  value: 1,
+                                  onTap: () {
+                                    showEditDialog(
+                                        title, list[index]['id'].toString());
+                                  },
+                                  child: const ListTile(
+                                    leading: Icon(Icons.edit),
+                                    title: Text('Edit'),
+                                  )),
+                              PopupMenuItem(
+                                  value: 2,
+                                  onTap: () {
+                                    showDeleteDialog(
+                                      list[index]['id'].toString(),
+                                      list[index]['desc'].toString(),
+                                    );
+                                  },
+                                  child: const ListTile(
+                                    leading: Icon(Icons.delete),
+                                    title: Text('Delete'),
+                                  )),
+                            ],
+                          ),
                         );
                       } else {
                         return Container();
@@ -225,12 +254,12 @@ class _PostScreenState extends State<PostScreen> {
     );
   }
 
-  Future showDeleteDialog(String id) async {
+  Future showDeleteDialog(String id, String title) async {
     return showCupertinoModalPopup(
       context: context,
       builder: (context) => CupertinoAlertDialog(
         title: const Text('Delete'),
-        content: const Text('You sure want to delete?'),
+        content: Text('You sure want to delete $title?'),
         actions: [
           CupertinoDialogAction(
             isDefaultAction: true,
