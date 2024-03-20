@@ -39,6 +39,11 @@ class _SignupScreenState extends State<SignupScreen> {
         password: passwordController.text.toString(),
       )
           .then((value) {
+        firestore.collection("Users").doc(auth.currentUser!.uid).set({
+          'uid': auth.currentUser!.uid,
+          'username': usernameController.text.toString(),
+          'email': emailController.text.toString(),
+        });
         setState(() {
           loading = false;
           emailController.clear();
