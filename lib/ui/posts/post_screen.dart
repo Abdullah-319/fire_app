@@ -152,17 +152,18 @@ class _PostScreenState extends State<PostScreen> {
                                     title: Text('Edit'),
                                   )),
                               PopupMenuItem(
-                                  value: 2,
-                                  onTap: () {
-                                    showDeleteDialog(
-                                      list[index]['id'].toString(),
-                                      list[index]['desc'].toString(),
-                                    );
-                                  },
-                                  child: const ListTile(
-                                    leading: Icon(Icons.delete),
-                                    title: Text('Delete'),
-                                  )),
+                                value: 2,
+                                onTap: () {
+                                  showDeleteDialog(
+                                    list[index]['id'].toString(),
+                                    list[index]['desc'].toString(),
+                                  );
+                                },
+                                child: const ListTile(
+                                  leading: Icon(Icons.delete),
+                                  title: Text('Delete'),
+                                ),
+                              ),
                             ],
                           ),
                         );

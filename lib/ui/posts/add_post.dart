@@ -69,36 +69,55 @@ class _AddPostState extends State<AddPost> {
         centerTitle: true,
         title: const Text("Add Post"),
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    maxLines: 5,
-                    controller: postController,
-                    decoration: const InputDecoration(
-                      hintText: "What's on your mind?",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.8,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    Container(
+                      height: MediaQuery.of(context).size.width * 0.85,
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      decoration: BoxDecoration(
+                        border: Border.all(),
+                      ),
+                      child: Icon(
+                        Icons.add_a_photo_rounded,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.6),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  RoundButton(
-                    loading: loading,
-                    title: "Post",
-                    onTap: () {
-                      addPost(postController.text);
-                    },
-                  ),
-                ],
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      maxLines: 2,
+                      controller: postController,
+                      decoration: const InputDecoration(
+                        hintText: "What's on your mind?",
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    RoundButton(
+                      loading: loading,
+                      title: "Post",
+                      onTap: () {
+                        addPost(postController.text);
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
