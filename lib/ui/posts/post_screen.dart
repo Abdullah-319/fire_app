@@ -82,7 +82,7 @@ class _PostScreenState extends State<PostScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(Icons.person_outline_rounded),
-            Text(username),
+            Text(username.split(' ')[0]),
           ],
         ),
         actions: [
