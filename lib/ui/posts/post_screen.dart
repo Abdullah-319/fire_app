@@ -48,7 +48,9 @@ class _PostScreenState extends State<PostScreen> {
           .get();
 
       // Get the 'username' field from the document
-      username = snapshot.get('username');
+      setState(() {
+        username = snapshot.get('username');
+      });
       return username;
     } else {
       return 'User not logged in.';
