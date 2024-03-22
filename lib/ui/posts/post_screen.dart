@@ -137,7 +137,7 @@ class _PostScreenState extends State<PostScreen> {
                       if (searchController.text.isEmpty) {
                         return ListTile(
                           title: Text(list[index]['desc']),
-                          subtitle: Text(list[index]['id']),
+                          subtitle: Text(list[index]['user']),
                           trailing: PopupMenuButton(
                             icon: const Icon(Icons.more_vert_rounded),
                             itemBuilder: (context) => [
@@ -171,7 +171,8 @@ class _PostScreenState extends State<PostScreen> {
                           .contains(searchController.text.toLowerCase())) {
                         return ListTile(
                           title: Text(list[index]['desc']),
-                          subtitle: Text(list[index]['id']),
+                          subtitle: Text(list[index]['user']),
+                          // subtitle: Text(list[index]['id']),
                           trailing: PopupMenuButton(
                             icon: const Icon(Icons.more_vert_rounded),
                             itemBuilder: (context) => [
