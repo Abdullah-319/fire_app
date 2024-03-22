@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fire_app/ui/auth/login_screen.dart';
 import 'package:fire_app/ui/posts/add_post.dart';
 import 'package:fire_app/utils/utils.dart';
@@ -17,6 +18,7 @@ class PostScreen extends StatefulWidget {
 
 final auth = FirebaseAuth.instance;
 final database = FirebaseDatabase.instance;
+final firestore = FirebaseFirestore.instance;
 
 class _PostScreenState extends State<PostScreen> {
   // Widget userAccess = Text(auth.currentUser!.email.toString());
@@ -24,6 +26,7 @@ class _PostScreenState extends State<PostScreen> {
   final ref = database.ref('Posts');
   final searchController = TextEditingController();
   final updateController = TextEditingController();
+  String username = '';
 
   List<dynamic> list = [];
 
@@ -35,12 +38,29 @@ class _PostScreenState extends State<PostScreen> {
     });
   }
 
+  Future<String> getUsername() async {
+    User? user = auth.currentUser;
+    if (user != null) {
+      // Get the document snapshot corresponding to the current user's UID
+      DocumentSnapshot snapshot = await firestore
+          .collection('Users') // Replace 'Users' with your collection name
+          .doc(user.uid)
+          .get();
+
+      // Get the 'username' field from the document
+      username = snapshot.get('username');
+      return username;
+    } else {
+      return 'User not logged in.';
+    }
+  }
+
   @override
   void initState() {
     ref.onValue.listen((event) {
       getPostsFromDb(event.snapshot as AsyncSnapshot<DatabaseEvent>);
     });
-
+    getUsername();
     super.initState();
   }
 
@@ -56,7 +76,13 @@ class _PostScreenState extends State<PostScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text("Posts"),
-        leading: null,
+        leading: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.person_outline_rounded),
+            Text(username),
+          ],
+        ),
         actions: [
           IconButton(
               onPressed: () async {
