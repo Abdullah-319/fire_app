@@ -10,7 +10,15 @@ class PostImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Center(child: PhotoView(imageProvider: NetworkImage(image))),
+      body: Center(
+        child: PhotoView(
+          imageProvider: NetworkImage(
+            image,
+          ),
+          filterQuality: FilterQuality.high,
+          tightMode: true,
+        ),
+      ),
     );
   }
 }
