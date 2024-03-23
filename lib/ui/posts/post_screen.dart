@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fire_app/ui/auth/login_screen.dart';
 import 'package:fire_app/ui/posts/add_post.dart';
+import 'package:fire_app/ui/posts/post_image.dart';
 import 'package:fire_app/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -138,15 +139,24 @@ class _PostScreenState extends State<PostScreen> {
                         return ListTile(
                           title: Text(list[index]['desc']),
                           subtitle: Text(list[index]['user']),
-                          leading: ClipRRect(
-                            borderRadius: BorderRadius.circular(9999),
-                            child: SizedBox(
-                              height: 50,
-                              width: 50,
-                              child: Image.network(
-                                list[index]['picUrl'],
-                                fit: BoxFit.cover,
-                                filterQuality: FilterQuality.high,
+                          leading: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PostImage(
+                                          image: list[index]['picUrl'])));
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(9999),
+                              child: SizedBox(
+                                height: 50,
+                                width: 50,
+                                child: Image.network(
+                                  list[index]['picUrl'],
+                                  fit: BoxFit.cover,
+                                  filterQuality: FilterQuality.high,
+                                ),
                               ),
                             ),
                           ),
@@ -186,15 +196,24 @@ class _PostScreenState extends State<PostScreen> {
                           title: Text(list[index]['desc']),
                           subtitle: Text(list[index]['user']),
                           // subtitle: Text(list[index]['id']),
-                          leading: ClipRRect(
-                            borderRadius: BorderRadius.circular(9999),
-                            child: SizedBox(
-                              height: 50,
-                              width: 50,
-                              child: Image.network(
-                                list[index]['picUrl'],
-                                fit: BoxFit.cover,
-                                filterQuality: FilterQuality.high,
+                          leading: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PostImage(
+                                          image: list[index]['picUrl'])));
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(9999),
+                              child: SizedBox(
+                                height: 50,
+                                width: 50,
+                                child: Image.network(
+                                  list[index]['picUrl'],
+                                  fit: BoxFit.cover,
+                                  filterQuality: FilterQuality.high,
+                                ),
                               ),
                             ),
                           ),
