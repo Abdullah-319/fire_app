@@ -138,6 +138,18 @@ class _PostScreenState extends State<PostScreen> {
                         return ListTile(
                           title: Text(list[index]['desc']),
                           subtitle: Text(list[index]['user']),
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.circular(9999),
+                            child: SizedBox(
+                              height: 50,
+                              width: 50,
+                              child: Image.network(
+                                list[index]['picUrl'],
+                                fit: BoxFit.cover,
+                                filterQuality: FilterQuality.high,
+                              ),
+                            ),
+                          ),
                           trailing: PopupMenuButton(
                             icon: const Icon(Icons.more_vert_rounded),
                             itemBuilder: (context) => [
@@ -174,6 +186,18 @@ class _PostScreenState extends State<PostScreen> {
                           title: Text(list[index]['desc']),
                           subtitle: Text(list[index]['user']),
                           // subtitle: Text(list[index]['id']),
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.circular(9999),
+                            child: SizedBox(
+                              height: 50,
+                              width: 50,
+                              child: Image.network(
+                                list[index]['picUrl'],
+                                fit: BoxFit.cover,
+                                filterQuality: FilterQuality.high,
+                              ),
+                            ),
+                          ),
                           trailing: PopupMenuButton(
                             icon: const Icon(Icons.more_vert_rounded),
                             itemBuilder: (context) => [
