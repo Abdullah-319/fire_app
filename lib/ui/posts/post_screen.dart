@@ -140,7 +140,8 @@ class _PostScreenState extends State<PostScreen> {
                       if (searchController.text.isEmpty) {
                         return ListTile(
                           title: Text(list[index]['desc']),
-                          subtitle: Text(list[index]['user']),
+                          subtitle: Text(
+                              list[index]['user'].toString().split('@')[0]),
                           leading: GestureDetector(
                             onTap: () {
                               Navigator.push(
