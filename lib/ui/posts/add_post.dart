@@ -6,6 +6,7 @@ import 'package:fire_app/utils/utils.dart';
 import 'package:fire_app/widgets/round_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -24,6 +25,7 @@ class _AddPostState extends State<AddPost> {
 
   final database = FirebaseDatabase.instance;
   final auth = FirebaseAuth.instance;
+  final storage = FirebaseStorage.instance;
 
   File? image;
   final imagePicker = ImagePicker();

@@ -16,6 +16,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool loading = false;
+  bool obsecurePass = true;
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -103,16 +104,29 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         controller: passwordController,
                         keyboardType: TextInputType.text,
-                        obscureText: true,
+                        obscureText: obsecurePass,
                         validator: (value) {
                           if (value!.trim().isEmpty) {
                             return 'Enter password';
                           }
                           return null;
                         },
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(
                             Icons.password,
+                          ),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                obsecurePass = !obsecurePass;
+                              });
+                            },
+                            icon: Icon(
+                              obsecurePass
+                                  ? Icons.visibility_off_rounded
+                                  : Icons.visibility_rounded,
+                              size: 18,
+                            ),
                           ),
                           hintText: "Password",
                         ),
