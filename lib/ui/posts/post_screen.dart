@@ -5,6 +5,7 @@ import 'package:fire_app/ui/posts/post_image.dart';
 import 'package:fire_app/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 // import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class PostScreen extends StatefulWidget {
 final auth = FirebaseAuth.instance;
 final database = FirebaseDatabase.instance;
 final firestore = FirebaseFirestore.instance;
+final storage = FirebaseStorage.instance;
 
 class _PostScreenState extends State<PostScreen> {
   // Widget userAccess = Text(auth.currentUser!.email.toString());
@@ -344,6 +346,7 @@ class _PostScreenState extends State<PostScreen> {
           CupertinoDialogAction(
             isDestructiveAction: true,
             onPressed: () {
+              storage.ref('Post_Images').child('$id.jpg').delete();
               ref.child(id).remove();
               Navigator.pop(context);
             },
