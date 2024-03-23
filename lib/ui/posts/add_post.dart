@@ -58,24 +58,32 @@ class _AddPostState extends State<AddPost> {
           //     DateFormat('yyyy-MM-dd – kk:mm:ss:ms').format(now);
           final id = DateTime.now().microsecondsSinceEpoch.toString();
 
-          database.ref('Posts').child(id).set({
-            'id': id,
-            'user': auth.currentUser?.email ?? auth.currentUser!.phoneNumber,
-            'desc': desc,
-          }).then((value) {
-            Utils().showMessage(context, "What a nice thought. 😉",
-                Theme.of(context).colorScheme.secondary);
-            setState(() {
-              loading = false;
-              postController.clear();
+          final storageRef = storage.ref('/Post_Images/$id.jpg');
+          final uploadTask = storageRef.putFile(image!.absolute);
+
+          Future.value(uploadTask).then((value) async {
+            var newUrl = await storageRef.getDownloadURL();
+            database.ref('Posts').child(id).set({
+              'id': id,
+              'user': auth.currentUser?.email ?? auth.currentUser!.phoneNumber,
+              'desc': desc,
+              'picUrl': newUrl,
+            }).then((value) {
+              Utils().showMessage(context, "What a nice thought. 😉",
+                  Theme.of(context).colorScheme.secondary);
+              setState(() {
+                loading = false;
+                postController.clear();
+                image = null;
+              });
+            }).onError((error, stackTrace) {
+              Utils().showMessage(context, error.toString(),
+                  Theme.of(context).colorScheme.error);
+              setState(() {
+                loading = false;
+              });
             });
-          }).onError((error, stackTrace) {
-            Utils().showMessage(
-                context, error.toString(), Theme.of(context).colorScheme.error);
-            setState(() {
-              loading = false;
-            });
-          });
+          }).onError((error, stackTrace) {});
         } catch (e) {
           Utils().showMessage(
               context,
