@@ -1,4 +1,5 @@
 import 'package:fire_app/firebase_services/google_signin_service.dart';
+import 'package:fire_app/ui/auth/forgot_password.dart';
 import 'package:fire_app/ui/auth/login_with_phone.dart';
 import 'package:fire_app/ui/auth/signup_screen.dart';
 import 'package:fire_app/ui/posts/post_screen.dart';
@@ -131,7 +132,27 @@ class _LoginScreenState extends State<LoginScreen> {
                           hintText: "Password",
                         ),
                       ),
-                      const SizedBox(height: 50),
+                      const SizedBox(height: 7),
+                      Container(
+                        alignment: Alignment.bottomRight,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ForgotPasswordScreen()));
+                          },
+                          child: Text(
+                            'Forgot Password?',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
